@@ -170,6 +170,9 @@ local ff_coverage_addr = locate_aob("C1 F9 04 83 C1 01 2B 46 F8")
 local combat_bonus_memory_addr = locate_aob("83 C0 14 0F AF 44 24 04 8D 0C 80 B8 1F 85 EB 51 F7 E9")
 local resting_factor_addr = locate_aob("69 F6 ? ? ? ? 66 83 86 ? ? ? ? 01")+13
 
+local positive_troop_combat_bonus_visual_addr = locate_aob("8D 96 A2 00 00 00 8D 0C 80")
+local negative_troop_combat_bonus_visual_addr = locate_aob("8D 96 98 00 00 00 8D 0C 80")
+
 -- tax related addresses
 local tax_addr = locate_aob("8B 44 24 08 83 C0 FF 0F AF 44 24 0C 99 2B C2 D1 F8")
 local bribe_addr = locate_aob("B8 05 00 00 00 2B 44 24 08 0F AF 44 24 0C 99")
@@ -1353,6 +1356,8 @@ local function edit_fear_factor(fear_factor)
   end
   if combat_bonus ~= nil then
     local damage_table_addr = core.allocate(11)
+    local damage_table_visual_addr = core.allocate(11*4)
+
     local custom_combat_instructions = {
       0x8A, 0x88, core.itob(damage_table_addr+5),
       0x0F, 0xAF, 0x4C, 0x24, 0x04,             -- imul ecx,[esp+04]
@@ -1360,6 +1365,21 @@ local function edit_fear_factor(fear_factor)
     }
 
     core.writeCode(damage_table_addr, combat_bonus, true)
+    for idx, multiplier in ipairs(combat_bonus) do
+        core.writeInteger(damage_table_visual_addr+4*(idx-1), multiplier-100)
+    end
+
+    -- positive_troop_combat_bonus_visual_addr  -- target is ecx, src is eax
+    core.writeCodeBytes(positive_troop_combat_bonus_visual_addr+6, {0x90, 0x90, 0x90})  -- nop out original eax*5 -> ecx
+    -- negative_troop_combat_bonus_visual_addr  -- target is ecx, src is eax
+    core.writeCodeBytes(negative_troop_combat_bonus_visual_addr+6, {0x90, 0x90, 0x90})  -- nop out original eax*5 -> ecx
+    
+    local visual_code_positive = core.assemble("mov ecx, [eax*4 + tcb_table_addr]", {tcb_table_addr=damage_table_visual_addr+ 20}, 0)
+    local visual_code_negative = core.assemble("mov ecx, [eax*4 + tcb_table_addr]", {tcb_table_addr=damage_table_visual_addr+ 20}, 0)
+
+    core.insertCode(positive_troop_combat_bonus_visual_addr, 6, visual_code_positive, positive_troop_combat_bonus_visual_addr+9, "before")
+    core.insertCode(negative_troop_combat_bonus_visual_addr, 6, visual_code_negative, negative_troop_combat_bonus_visual_addr+9, "before")
+
     local custom_combat_addr = core.allocateCode(core.calculateCodeSize(custom_combat_instructions))
 
     local combat_jumpout_instructions = {
