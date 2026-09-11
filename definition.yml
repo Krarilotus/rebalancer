@@ -1,7 +1,15 @@
 name: rebalancer
 display-name: Rebalancer
 type: module
-version: 1.1.4
+version: 1.1.5
 author: CIO
 meta:
   version: 1.0.0
+tags:
+- balance
+- tools
+capabilities:
+  files: false
+  code: true
+  configuration: true
+  options: true
