@@ -2,7 +2,7 @@ meta:
   version: 1.0.0
 options:
 - category:
-  - Rebalancer
+  - '{{ui.rebalancer}}'
   name: balance_config_file_selector
   header: '{{balance_config_file_selector}}'
   text: '{{balance_config_file_selector_descr}}'

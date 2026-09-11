@@ -1,0 +1,5 @@
+balance_config_file_selector: Archivo de equilibrio
+balance_config_file_selector_descr: Selecciona la ruta del archivo de configuración del equilibrio.
+ui.rebalancer: Rebalancer
+tags.balance: Equilibrio
+tags.tools: Herramientas

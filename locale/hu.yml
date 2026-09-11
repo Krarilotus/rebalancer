@@ -1,0 +1,5 @@
+balance_config_file_selector: Egyensúlybeállítási fájl
+balance_config_file_selector_descr: Válaszd ki az egyensúlybeállítási fájl elérési útját.
+ui.rebalancer: Rebalancer
+tags.balance: Egyensúly
+tags.tools: Eszközök

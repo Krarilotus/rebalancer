@@ -1,0 +1,5 @@
+balance_config_file_selector: Denge dosyası
+balance_config_file_selector_descr: Denge yapılandırma dosyasının yolunu seçin.
+ui.rebalancer: Rebalancer
+tags.balance: Denge
+tags.tools: Araçlar

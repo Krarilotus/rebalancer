@@ -1,0 +1,5 @@
+balance_config_file_selector: 平衡配置文件
+balance_config_file_selector_descr: 选择平衡配置文件的路径。
+ui.rebalancer: Rebalancer
+tags.balance: 平衡
+tags.tools: 工具

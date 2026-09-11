@@ -1,0 +1,5 @@
+balance_config_file_selector: Balance-Datei
+balance_config_file_selector_descr: Pfad zur Balance-Konfigurationsdatei auswählen.
+ui.rebalancer: Rebalancer
+tags.balance: Balance
+tags.tools: Werkzeuge

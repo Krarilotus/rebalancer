@@ -1,1 +1,5 @@
 balance_config_file_selector_descr: Select path to the balance config file
+balance_config_file_selector: Balance configuration file
+ui.rebalancer: Rebalancer
+tags.balance: Balance
+tags.tools: Tools
